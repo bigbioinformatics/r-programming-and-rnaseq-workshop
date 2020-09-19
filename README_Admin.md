@@ -24,6 +24,8 @@ conda install -c bioconda -c conda-forge salmon sra-tools refgenie
 6. Pull the hg38 Salmon index
 
 ```
+export REFGENIE='genome_config.yaml'
+refgenie init -c $REFGENIE
 refgenie pull hg38/salmon_partial_sa_index
 ```
 
