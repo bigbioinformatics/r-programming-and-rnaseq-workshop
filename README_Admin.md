@@ -41,4 +41,27 @@ fasterq-dump -e 8 -p -O SRR1039523/ "/home/labadmin/SRR1039523/SRR1039523.sra"
 salmon quant -l A -1 "/home/labadmin/SRR1039523/SRR1039523.sra_1.fastq" -2 "/home/labadmin/SRR1039523/SRR1039523.sra_2.fastq" -i ~/hg38/salmon_partial_sa_index/default/ -p 8 -o Salmon.out/
 ```
 
+9. To turn on all the machines before lecture (in powershell):
 
+```
+az account set --subscription research
+az vm start --ids $(az vm list --resource-group m2600-workshop-basic-rg --query "[].id" -o tsv)
+```
+
+10. To export the mahine IP addresses to a csv:
+
+```
+$results = (az network public-ip list --resource-group m2600-workshop-basic-rg --query "[].{name: name, address: ipAddress}" -o json) |ConvertFrom-Json
+$results|Export-Csv -Path vmlist.csv -NoTypeInformation
+```
+
+11. Sign in:
+
+Username: Labadmin
+Password: !L1nuxL@bT3$t!
+
+12. To power off the machines
+
+```
+az vm deallocate --ids $(az vm list --resource-group m2600-workshop-basic-rg --query "[].id" -o tsv)
+```
