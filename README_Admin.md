@@ -58,6 +58,7 @@ $results|Export-Csv -Path vmlist.csv -NoTypeInformation
 11. Sign in:
 
 Username: Labadmin
+
 Password: !L1nuxL@bT3$t!
 
 12. To power off the machines
