@@ -32,7 +32,7 @@ refgenie pull hg38/salmon_partial_sa_index
 
 7. Download SRA file and convert to fastq
 ```
-prefetch SRR1039521
+prefetch -O SRR1039521/ SRR1039521 
 fasterq-dump -e 14 -p -O SRR1039521/ "/home/labadmin/SRR1039521/SRR1039521.sra"
 ```
 
