@@ -32,13 +32,13 @@ refgenie pull hg38/salmon_partial_sa_index
 
 7. Download SRA file and convert to fastq
 ```
-prefetch SRR1039523
-fasterq-dump -e 8 -p -O SRR1039523/ "/home/labadmin/SRR1039523/SRR1039523.sra"
+prefetch SRR1039521
+fasterq-dump -e 14 -p -O SRR1039521/ "/home/labadmin/SRR1039521/SRR1039521.sra"
 ```
 
 8. Align to transcriptome using `salmon`
 ```
-salmon quant -l A -1 "/home/labadmin/SRR1039523/SRR1039523.sra_1.fastq" -2 "/home/labadmin/SRR1039523/SRR1039523.sra_2.fastq" -i ~/hg38/salmon_partial_sa_index/default/ -p 8 -o Salmon.out/
+salmon quant -l A -1 SRR1039521/SRR1039521.sra_1.fastq -2 SRR1039521/SRR1039521.sra_2.fastq -i hg38/salmon_partial_sa_index/default/ -p 14 -o Salmon.out/
 ```
 
 9. To turn on all the machines before lecture (in powershell):
@@ -57,9 +57,9 @@ $results|Export-Csv -Path vmlist.csv -NoTypeInformation
 
 11. Sign in:
 
-Username: Labadmin
+Username: labadmin
 
-Password: !L1nuxL@bT3$t!
+Password: 1234Temp1234
 
 12. To power off the machines
 
