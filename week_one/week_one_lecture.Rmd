@@ -1,0 +1,386 @@
+---
+title: "Week One"
+subtitle: "Data strutures in R"
+output: 
+  powerpoint_presentation
+---
+
+```{r echo=FALSE}
+library(tidyverse)
+```
+
+
+# Orientation
+
+## Package stats for Bioconductor
+
+```{r echo=TRUE}
+read_tsv("https://bioconductor.org/packages/stats/bioc/bioc_pkg_stats.tab") %>%
+  filter(Year != 2020) %>%
+  select(Year, Nb_of_downloads) %>%
+  group_by(Year) %>%
+  summarise(sum = sum(Nb_of_downloads)) %>%
+  ggplot(mapping = aes(x = Year, y = sum)) +
+  geom_path() +
+  scale_x_continuous(breaks = 2009:2019) +
+  theme_classic(base_size = 18) +
+  labs(x = NULL, y = "Downloads", title = "Bioconductor package downloads over time")
+```
+
+## Slide with Plot
+
+```{r pressure, fig.asp=0.618}
+par(mar=c(4,4,0.1,0.1))
+plot(pressure)
+```
+
+
+# Simple Data Structures
+
+## Characters
+
+Characters hold "string" data. For example:
+
+<br>
+
+```{r}
+"Hello world"
+```
+
+## Numbers
+
+Numbers can be integers or numerics (i.e., floats) in R. For example:
+
+<br>
+
+```{r}
+1
+2.2
+3E100
+```
+
+## Logicals
+
+Logicals are either TRUE or FALSE. For example:
+
+<br>
+
+```{r}
+TRUE
+FALSE
+```
+
+## Data Structure Classes
+
+We can identify the "type" or "class" of an object in R with the `class` function:
+
+<br>
+
+```{r}
+class(1)
+class("Hello World!")
+class(TRUE)
+```
+
+## Data Structure Classes cont.
+
+We can also use the `str` function to see the "structure" of any R object:
+
+<br>
+
+```{r}
+str(1)
+str("Hello World!")
+str(TRUE)
+```
+
+## Comments
+
+An important tool for writing R code is comments. These are preceded by `#` and are ignored by R.
+
+<br>
+
+```{r}
+# This code will say "Hello World!"
+"Hello world!"
+```
+
+<br>
+
+Comments are a helpful tool for conveying information about your code to others.
+
+# Simple Data Structure Methods
+
+## The print Method
+
+The `print` method works on any data type in R:
+
+<br>
+
+```{r}
+print(1)
+print("Hello World!")
+print(TRUE)
+```
+
+<br>
+
+\* Notice that this is the same as simply typing the data into the R console and hitting \<enter\>
+
+## Arithmetic Methods
+
+Arithmetic Methods for numeric data types:
+
+```{r}
+# Addition
+1 + 1  
+# Subtraction
+1 - 1
+# Multiplication
+2 * 2
+# Division 
+10 / 2
+```
+
+See the cheat sheet for the full list.
+
+## Equivalence Comparisons
+
+Equivalence comparisons are a way to check if any two objects are the same.
+
+<br>
+
+```{r}
+# Does 1 equal 1?
+1 == 1
+# Does "Hello" equal "World"?
+"Hello" == "World"
+```
+
+## Equivalence Comparisons cont.
+
+Equivalence comparisons can be inverted to check if two objects are not equal.
+
+<br>
+
+```{r}
+# Does 1 not equal 1?
+1 != 1
+# Does "Hello" not equal "World"?
+"Hello" != "World"
+```
+
+## Mathematical Comparisons
+
+For numeric data types, mathematical comparisons can also be made.
+
+<br>
+
+```{r}
+# Is 1 less than 100?
+1 < 100
+# Is 2 + 2 greater than 2 ^ 2?
+2 + 2 > 2 ^ 2
+# Is 2 + 2 greater than or equal to 2 ^ 2?
+2 + 2 >= 2 ^ 2
+```
+
+
+## Variables
+
+Variables hold objects which are assigned to them.
+
+<br>
+
+```{r}
+a <- 1
+a
+```
+
+## Variables cont.
+
+Variables are identical to the object assigned to them.
+
+<br>
+
+```{r}
+a <- 1
+b <- a
+# Does b equal 1?
+b == 1 
+```
+
+## Variables cont.
+
+Variables enable complex operations on data.
+
+<br>
+
+```{r}
+h <- 2 ^ 100
+i <- h / 3E100
+j <- 1E5
+k <- j ^ (-1 * i)
+k < 1
+```
+
+
+# Complex Data Structures
+
+## Vectors
+
+A vector is an ordered collection of either numerics, characters, or logicals.
+
+<br>
+
+```{r}
+num_vec <- c(1, 2, 3)
+num_vec
+char_vec <- c("Hello", "World", "!")
+char_vec
+log_vec <- c(TRUE, FALSE, FALSE)
+log_vec
+```
+
+## Vectors cont.
+
+Vectors can also have a vector of names which describe each element.
+
+<br>
+
+```{r}
+grades <- c(98, 95, 82)
+names(grades) <- c("Jimmy", "Alice", "Susan")
+grades
+```
+
+## Vectors cont.
+
+Elements from a vector can be accessed using the index of the desired data.
+
+<br>
+
+```{r}
+fruits <- c("apple", "banana", "orange")
+fruits[2]
+```
+
+## Vectors cont.
+
+Elements from a vector can be accessed using the name of the desired element.
+
+<br>
+
+```{r}
+grades <- c(98, 95, 82)
+names(grades) <- c("Jimmy", "Alice", "Susan")
+grades["Alice"]
+```
+
+## Vectors cont. 
+
+Numeric shortcut for getting a vector of integers:
+
+<br>
+
+```{r}
+my_ints <- 1:10
+my_ints
+```
+
+## Lists
+
+A list is an ordered collection of any objects.
+
+<br>
+
+```{r}
+my_list <- list(1, "b", TRUE, c(1, 2, 3))
+my_list
+```
+
+## Lists cont.
+
+Lists can also have names.
+
+<br>
+
+```{r}
+my_class <- list(c("Jimmy", "Alice", "Susan"),
+                c(98, 95, 82))
+names(my_class) <- c("Students", "Grades")
+my_class
+```
+
+## Lists cont.
+
+Lists can be accessed using numeric indexes or by element name.
+
+<br>
+
+```{r}
+my_class <- list(c("Jimmy", "Alice", "Susan"),
+                c(98, 95, 82))
+names(my_class) <- c("Students", "Grades")
+my_class[[1]]
+my_class[["Grades"]]
+```
+
+
+## Data Frames
+
+Data Frames are similar to excel sheets. They are 2D arrays which can hold numeric,
+character, and boolean data. They also have column names.
+
+```{r}
+my_df <- data.frame(
+  "Students" = c("Jimmy", "Alice", "Susan"), 
+  "Grades" = c(98, 95, 82)
+)
+
+my_df
+```
+
+## Data Frames cont.
+
+Data Frames can be accessed numerically by specifying the row and column of interest.
+
+<br>
+
+```{r}
+my_df <- data.frame(
+  "Students" = c("Jimmy", "Alice", "Susan"), 
+  "Grades" = c(98, 95, 82)
+)
+
+# What grade did Susan get?
+my_df[3, 2]  # [row, column]
+
+```
+
+## Data Frames cont. 
+
+Data Frames can also be accessed by column name with the "$" sign.
+
+```{r}
+my_df <- data.frame(
+  "Students" = c("Jimmy", "Alice", "Susan"), 
+  "Grades" = c(98, 95, 82)
+)
+
+# Access the Grades Column
+my_df$Grades
+
+# What grade did Alice get?
+my_df$Grades[2]
+
+```
+
+# Complex Data Structure Methods
+
+## Equivalence
+
+
+
+
+

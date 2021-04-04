@@ -1,0 +1,422 @@
+#' ---
+#' title: "Workshop #6 Differential Gene Expression Analysis"
+#' author: "Yidong Chen"
+#' date:  "October 4, 2020"
+#' ---
+#' 
+
+# packages you may need to install for this lecture.
+#BiocManager::install( "phantasus" )
+#BiocManager::install("EnhancedVolcano")
+#BiocManager::install( "DESeq2" )
+#BiocManager::install("airway")
+#BiocManager::install("EnhancedVolcano")
+#BiocManager::install("VennDiagram")
+
+# if you have not installed following packages in earlier lectures
+#BiocManager::install( "org.Hs.eg.db" )
+#BiocManager::install( "AnnotationDbi" )
+#BiocManager::install( "dplyr" )
+#install.packages("plotly")
+
+#' ***
+#' ## Example 1: Interactive gene expression data analysis. 
+#' First example (using GSE53986) is mainly for the purpose of understanding the basic gene expression
+#' anaysis tasks: 
+#' 
+#'1. data transformation, 
+#'2. normalization, 
+#'3. differential expression, 
+#'4. gene selction, and
+#'5. clustering
+#'
+#' Please join other workshops for alignment, quantification, as well as 
+#' functional analsys, and public-domain data importing.
+#'
+
+#   
+# First example R phantasus for interactive data analysis 
+# If need to install, uncomment the next line. 
+#BiocManager::install( "phantasus" )
+suppressMessages( library( phantasus ) )
+
+# start the server during demo.
+#servePhantasus()
+
+
+
+
+#' ***
+#' ## Example 2a: Using airway AND DESeq2.
+#' Using DESeq for differential gene expression analysis.
+# Third example: airway & DESeq.
+suppressMessages( library( airway ) )
+suppressMessages( library("DESeq2") )
+suppressMessages( library("ggplot2") )
+
+# load data. 
+data( "airway" )
+se <- airway
+
+# We set up differentially expressed gene selection criterion here. 
+pThr        <- 0.01   # for adj. p-value threshold (<= 0.01)
+logFCThr    <- 1      # for log2 fold-change (at least 2 fold)
+baseMeanThr <- 20     # for average expression level (at least 20 counts).
+cpmThr      <- 1      # for copy-per-million (at least 1 cpm). 
+
+# examine all data component
+head( assay( se ) )
+rowData( se )
+colData( se )
+
+# create DESeq data set, using paired design.
+dds <- DESeqDataSet(se, design = ~ cell + dex)
+
+# you can also try just do treated vs untreated, without pairing samples.
+#dds <- DESeqDataSet(se, design = ~dex )
+
+# What about if we only have data matrix, and sample info, such as,
+countMat <- assay( se )
+sampleInfo <- as.data.frame( colData( se ) )
+ddsMat <- DESeqDataSetFromMatrix( countData = countMat,
+                                  colData = sampleInfo,
+                                  design = ~ cell + dex )
+
+# Perform differential gene expression analysis, and
+dds <- DESeq( dds )
+
+# get the result out. 
+res <- results( dds )
+
+# select genes that are significant. DESeq2 uses the Benjamini-Hochberg (BH) adjustment as 
+# described in the base R p.adjust function. Note, this is the fraction of false positives 
+# (the false discovery rate, FDR).  BH-adjusted p values are given in the column padj of 
+# the res object.
+idx = which( res$padj <= pThr & 
+             abs( res$log2FoldChange ) >= logFCThr & 
+             res$baseMean >= baseMeanThr )
+sigRes = res[idx, ]
+
+# write out to a file. Check the file and you may not like it. 
+write.table(sigRes, file = "airway_sigGenes_adjp0.05_lfc1_bm20.txt", 
+            sep = "\t", col.names = TRUE, row.names = TRUE)
+
+#' ***
+#' ## Break #1: Other dataset.  
+#' Student may explore this website,  
+#' http://www.bioconductor.org/packages/release/data/experiment/,  
+#' and select a particular dataset to repeat the process. We recommend pasilla  
+if( !require(pasilla) ) { 
+  BiocManager::install("pasilla")
+  library("pasilla")
+}
+# pasilla data set contains two count matrices: per-gene read counts and
+# per-exon read counts. Here we use per-gene read count matrix.
+#data("pasillaGenes")  
+#countMat <- as.data.frame( pasillaGenes@assayData$counts )  
+#sampleInfo <- as.data.frame( pasillaGenes@phenoData@data )  
+#ddsMat <- DESeqDataSetFromMatrix( countData = countMat,  
+#                                  colData = sampleInfo,  
+#                                  design = ~condition )  
+#'  
+#' ## Questions: How many genes and experiments in the dataset?
+
+#' Also, for later annotation, this is drosophila samples, so you to install/load 
+#' this __org.Dm.eg.db__ package. More comprehensively, 
+#' read this document (slightly different approach and followed with earlier version of DESeq 
+#' analysis, which used the pasilla dataset)  
+#' https://bioconductor.org/packages/release/bioc/vignettes/DESeq/inst/doc/DESeq.pdf
+#'
+#'
+
+
+
+
+#' ***
+#' ## Example 2b: Polish your report. 
+#' The file we print out looks like this way:  
+#' baseMean	log2FoldChange	lfcSE	stat	pvalue	padj  
+#'ENSG00000003402	2546.614197	-1.190432416	0.120621217	-9.86917925	5.66E-23	4.82E-21  
+#'ENSG00000003987	25.50431871	-1.004804853	0.37265646	-2.696330165	0.007010814	0.034570829  
+#'ENSG00000004799	914.3790141	-2.644927284	0.628564617	-4.207884462	2.57773E-05	0.000263293  
+#'ENSG00000005471	33.66398824	1.120053429	0.357469028	3.133288034	0.001728597	0.010628632  
+#'ENSG00000006283	62.96025142	1.46690803	0.286728811	5.11601197	3.12063E-07	4.68433E-06  
+#'
+#' Notice that, 
+#'1. Column header is missaligned,
+#'2. gene symbols & descriptions are not there
+#'3. Where is the normalized data, and
+#'4. I heard variance stablization normalization, how can I get that?
+#'
+# load three additional libraries, 1) human gene annotation, 
+#   2) additional functions, 3) easily join data table.
+suppressMessages( library(org.Hs.eg.db) )
+suppressMessages( library( AnnotationDbi ) )
+suppressMessages( library( dplyr ) )
+
+#Check the column of human annotation library column names (ensembl ID?)
+columns(org.Hs.eg.db)
+anno <- AnnotationDbi::select(org.Hs.eg.db, rownames( sigRes ), 
+                              columns=c("ENSEMBL", "ENTREZID", "SYMBOL", "GENENAME"), 
+                              keytype="ENSEMBL")
+
+# adding ENSEMBL gene ID as a column in significant differentially expression gene table.
+sigRes = cbind( ENSEMBL = rownames( sigRes), sigRes )
+
+# left-join, however, make sure the sigRes to be in the data.frame format. 
+outTable <- left_join( as.data.frame( sigRes ), anno )
+
+# we may just do that for the entire table...
+anno <- AnnotationDbi::select(org.Hs.eg.db, rownames( res ), 
+                              columns=c("ENSEMBL", "ENTREZID", "SYMBOL", "GENENAME" ), 
+                              keytype="ENSEMBL")
+
+# adding ENSEMBL gene ID as a column in significant differentially expression gene table.
+res = cbind( ENSEMBL = rownames( res), res )
+wholeTable <- left_join( as.data.frame( res ), anno )
+
+# let's take a look...
+head( wholeTable ) 
+
+
+
+
+#' ***
+#' ## Question: non-unique table entries. 
+#' There is a error message before:  
+#' select()' returned __1:many__ mapping between keys and columns  
+#'  
+#' What is the problem? Any solutions?   
+#' hint: think dplyr::uniuqe()  
+
+# Let's continue the RNA-seq analysis. 
+# Write again to see if you like this format
+write.table( outTable, file = "airway_sigGenes_adjp0.05_lfc1_bm20.txt", 
+             sep = "\t", col.names = TRUE, row.names = FALSE, quote = FALSE)
+write.table( wholeTable, file = "airway_allGenes.txt", 
+             sep = "\t", col.names = TRUE, row.names = FALSE, quote = FALSE)
+
+
+
+
+#' ***
+#' ## Example 2c: Additional processed data and plots.
+#' This section only shows some basic functions, you are highly encouraged to join later workshop to explore additional visualization
+#' and analysis methods. Our aim is only at obtaining normalized data and common volcano plot.
+# Some additional steps typically for other purpose (visualization, functional 
+# analysis, etc). This step has to be done after DESeq() function, or you have 
+# to call estimateSizeFactors() first. 
+normData <- counts(dds, normalized=TRUE)
+
+# get gene expression level in fpkm unit. 
+fpkm <- fpkm( dds, robust=TRUE)
+
+# remove some genes with no value or low expression across all samples.
+mu <- apply(normData, 1, mean)
+idx <- which( mu > 10 )
+
+# plot the figure to show the difference before/after normalization.
+par( mfrow=c(1,3) )
+boxplot( log2( assay(dds[idx,])+1 ), main = "Before normalization" )
+boxplot( log2( normData[idx,]+1 ), main = "After sizeFactor norm" )
+boxplot( log2( fpkm[idx,]+1 ), main = "FPKM" )
+
+# DESeq also introduce an interesting concept: variance stablization transfromation. 
+# You are more than welcome to join "Visualization and Analysis of Genomic Data" course, where
+# we will introduce more normalization methods and reasons behind them.
+rld <- rlog( dds )
+head( assay( rld ) ) 
+
+par( mfrow = c( 1, 2 ) )
+dds <- estimateSizeFactors(dds)
+plot( log2( 1 + normData[ , 1:2] ), col=rgb(0,0,0,.2), pch=16, cex=0.3, main = "log2 transform")
+plot( assay(rld)[ , 1:2],           col=rgb(0,0,0,.2), pch=16, cex=0.3, main = "variance stablization" )
+
+# most people will ask for a volcano plot, here is a pretty version of it. 
+library( EnhancedVolcano )
+EnhancedVolcano( as.data.frame(wholeTable), lab = wholeTable$SYMBOL, 
+                 x = 'log2FoldChange', y = 'padj',
+                 xlim = c(-8, 8), title = 'Treated vs untreated',
+                 pCutoff = 0.01, FCcutoff = 2, transcriptPointSize = 2.0, 
+                 transcriptLabSize = 3.0 )
+
+
+
+#' ***
+#' ## Break #2: How many way you can generate volcalno plots?
+#' We some simple volcano plot template for you to try
+# Using R base graph. 
+plot( wholeTable$log2FoldChange, -log10( wholeTable$padj ), pch = 19, cex = 1, 
+      xlab = "log2 fold change",  ylab = "-log10 adjp", lwd = 0, 
+      col = rgb(red = 1, green  = 0.4, blue = 0.1,  alpha = 0.5), 
+      main = "Treated vs untreated", sub = "R base plot()")
+
+# use ggplot (and dplyr)
+top20pThr <- wholeTable$padj[order(wholeTable$padj)[20]]
+wt <- wholeTable %>%
+  mutate( diffexpressed = 
+            ifelse(padj <= pThr & baseMean >= baseMeanThr & log2FoldChange >= logFCThr, "UP", 
+            ifelse(padj <= pThr & baseMean >= baseMeanThr & log2FoldChange <= -logFCThr, "DOWN", "NO" ) ) ) %>%
+  mutate( geneLabel = ifelse( padj <= top20pThr, SYMBOL, NA) ) 
+p <- ggplot( data=wt, aes(x = log2FoldChange, y=-log10(padj), 
+                     col = diffexpressed, label=geneLabel ) ) + 
+            geom_point(alpha = 0.4 ) + theme_minimal() + geom_text() + 
+            scale_color_manual(values=c("blue", "gray", "red"))
+p
+
+# interactive graph using plotly (through ggplot)
+suppressMessages( library(plotly) )
+fig <- ggplotly(p)
+fig
+
+idx = order(wt$padj)[1:5000]
+fig <- plot_ly(wt[idx,], x = ~log2FoldChange, y = ~log2(1+baseMean), z = ~-log10(padj),
+               color = ~log2(1+baseMean), size = ~log2(1+baseMean),
+               sizes = c(5,200), colors = c('#0000FF', '#FF0000') )
+fig <- fig %>% add_markers()
+fig <- fig %>% layout(scene = list(xaxis = list(title = 'logFC'),
+                                   yaxis = list(title = 'baseMean'),
+                                   zaxis = list(title = '-log10 padj')))
+fig
+
+
+
+
+#' ***
+#' ## Example 3: Using airway data & edgeR
+#' Using edgeR for differential gene expression analysis.
+# Forth example: airway & edgeR.
+suppressMessages( library(edgeR) )
+
+# first set up the DGE list
+dge          <- DGEList(counts = assay(airway, "counts"), group = airway$dex)
+dge$samples  <- merge(dge$samples, as.data.frame(colData(airway)), by = 0)
+dge$genes    <- data.frame(name = names(rowRanges(airway)), stringsAsFactors = FALSE)
+
+# calcuate size factor normalization. It is mostly the same as DESeq sizeFactor normalzation.
+dge <- calcNormFactors(dge)
+
+# Setup the design matrix and estimate the dispersion (variance). 
+# There are multiple ways to do this, and the weird two-step procedure is necessary.
+design <- model.matrix( ~ dge$samples$cell + dge$samples$dex )
+design
+
+# estiamte the disperson. 
+dge <- estimateDisp(dge, design)
+
+#  we do a glmFit() (generalized linear model), similar to LIMMA
+fit <- glmFit(dge, design)
+
+# glmLRT conducts likelihood ratio tests for one or more coefficients in the linear model. 
+# If coef is used, the null hypothesis is that all the coefficients indicated by coef 
+# are equal to zero. 
+lrt <- glmLRT( fit, coef = 5 )
+
+# select differentially expressed gene with adj.pval < 0.01. 
+sigRes2 <- topTags( lrt, n = Inf )
+idx <- which( sigRes2$table$logCPM >= log2(cpmThr) & 
+              abs( sigRes2$table$logFC)>= logFCThr & 
+              sigRes2$table$FDR <= pThr )
+sigRes2 <- sigRes2[idx,]
+
+#' ***
+#' ## Question: 
+#' What is coef = 5 in __glmLRT()__ function? Why we don't specify this in __DESeq()__ function?
+#'  
+#'  
+
+
+#' ***
+#' ## Example 4: Using LIMMA for RNA-seq analysis.
+#' voom is an acronym for mean-variance modelling at the observational level. Raw counts show increasing variance 
+#' with increasing count size, while log-counts typically show a decreasing mean-variance trend. 
+#' Voom() function estimates the mean-variance trend for log-counts, then assigns a weight to each observation 
+#' based on its predicted variance. The weights are then used in the linear modelling process to adjust for heteroscedasticity.
+# Using counts per million (CPM) to filter. 
+library( limma )
+drop <- which(apply(cpm(dge), 1, max) <= cpmThr )
+dge_voom <- dge[-drop,] 
+
+# apply voom transfromation. You do need to look at the curve the 
+# make sure the regression is smooth, otherwise, you need to drop (trim)
+# your data more aggressive (increase cpmThr in this case)
+par( mfrow=c(1,1) )  # reset to 1 figure per page.  
+
+# Voom recommend filtering more aggressively before sizefactor normalization. 
+y <- voom( dge_voom, design, plot = T)
+
+# linear model, and empircal Bayes estiamte.
+fit <- lmFit( y, design )
+fit <- eBayes( fit )
+
+# select differentially expressed genes.
+sigRes3 <- topTable(fit, coef=ncol(design), p.value = pThr, n = Inf )
+idx <- which( abs( sigRes3$logFC ) >= logFCThr )
+sigRes3 <- sigRes3[idx, ]
+
+
+
+
+#' ***
+#' ## Summary 
+#' Differentially expressed genes from 3 algorithms: are they similar? To evaluate them, you can use
+#' Venn Diagram to compare all genes. 
+# overlapping between 3 algorithms. 
+suppressMessages( library(VennDiagram) )
+venn.diagram( x = list( sigRes$ENSEMBL, sigRes2$table$name, sigRes3$name ),
+              category.names = c("DESeq2" , "edgeR", "LIMMA"), lwd = 0,
+              fill = c("lightblue", "green", "red"),
+              filename = 'DEAnalysis_venn_diagram.png', 
+              height = 1000, width = 1000 )
+
+#' ![Comparison of DESeq2, edgeR, and LIMMA-VOOM.](DEAnalysis_venn_diagram.png){width=400px}
+#'   
+#'
+#'Again, wrapping up this hands-on session, we went through,
+#'
+#'1. One interactive tool for microarray data analysis to capture the essence of gene expression data analysis, which is 
+#'  + Transformation (log2)
+#'  + Normalization (quantile, sizeFactor, median, etc)
+#'  + Differential expression (DESeq, edge, LIMMA, etc)
+#'  + Visualization
+#'2. Examples how to use DESeq2 to perform differential gene expression analysis
+#'3. Gene annotation using R annotation packages
+#'4. Report of your analysis results and visualization (a lot of variation of volcano plots)
+#'5. Other RNA-seq analysis packages (edgeR, LIMMA-Voom)
+#' 
+#' We __did not__ cover
+#' 
+#'1. Mathematical background of RNA-seq (Other than "Read Count" follow non-negative binomial distribution)  
+#'2. We did not cover how to create design matrix (please consult biostatisticians)  
+#'3. We did not provide common __visualization__ methods, such as PCA, MDS, hierarchical clustering, or more modern 
+#' methods such as tSNE (Pleasse join __Workshop 7__)   
+#'4. We did not cover functional analysis (please join __Workshop 8__)  
+#'5. Public-domain RNA-seq data and methods to access them (__Workshop 9__)
+#'6. Sequence alignment will also be covered in later workshops (__Workshop 11__)
+#'7. We certainly did not discuss important R data classes (DESeqDataSet, DEGList, and others). We will provide R language class in 2021 academic year. 
+#'   
+#' See you all in the next lecture. Also look for "Visualization and Analysis of Genomic Data" course.
+#'
+
+#' ***
+#' ## NCBI GEO datasets: Directly download gene expression data from GEO. 
+#' 
+#' You can also use command line function (after install package "Phantasus") to extract 
+#' gene expression data from NCBI GEO database. RNA-seq, however,
+#' does not work with method (other than metadata section) since NBCI GEO does not offer consistent
+#' gene expression level matrix (majority of them only have metadata). __Lecture 9__ will provide 
+#' alternative methods for RNA-seq. There are many packages for this purpose, such as "GEOquery" package.
+# Directly download very first GSE dataset from GEO database
+gse1 <- getGSE( "GSE1" )[[1]]
+exprs <- gse1@assayData$exprs
+
+# we can look at the abstract of this dataset
+gse1@experimentData@abstract
+gse1@experimentData@pubMedIds
+
+# boxplot of the entire 38 samples. 
+boxplot( exprs )
+
+
+# Session Info.
+sessionInfo()

@@ -1,0 +1,123 @@
+SDS 2.4	AQ Results	1.0
+Filename	06202020
+PlateID	H390G1S2
+Assay Type	Absolute Quantification
+Run DateTime	6/20/20 7:08:17 PM
+Operator	
+ThermalCycleParams	
+
+Sample Information
+
+Well	Sample Name	Detector Name	Reporter	Task	Ct	Tm Value	Tm Type	Quantity	Qty Mean	Qty StdDev	Ct Median	Ct Mean	Ct StdDev	Ct Type	Template Name	Baseline Type	Baseline Start	Baseline Stop	Threshold Type	Threshold	FOS	HMD	LME	EW	BPR	NAW	HNS	HRN	EAF	BAF	TAF	CAF	
+1	U2OS_siscr	GAPDH	SYBR	Unknown	21.865913	86.3	Auto Tm				21.981815	21.981398	0.11127531	Automatic Ct		Automatic			Automatic	10.335744													
+2	U2OS_siscr	GAPDH	SYBR	Unknown	21.092463	86.3	Auto Tm				21.981815	21.981398	0.11127531	Automatic Ct		Automatic			Automatic	10.335744													
+3	U2OS_siscr	GAPDH	SYBR	Unknown	21.981815	86.5	Auto Tm				21.981815	21.981398	0.11127531	Automatic Ct		Automatic			Automatic	10.335744													
+25	U2OS_si1	GAPDH	SYBR	Unknown	22.439487	86.5	Auto Tm				22.434076	22.428642	0.0143554825	Automatic Ct		Automatic			Automatic	10.335744													
+26	U2OS_si1	GAPDH	SYBR	Unknown	22.434076	86.5	Auto Tm				22.434076	22.428642	0.0143554825	Automatic Ct		Automatic			Automatic	10.335744													
+27	U2OS_si1	GAPDH	SYBR	Unknown	22.412363	86.5	Auto Tm				22.434076	22.428642	0.0143554825	Automatic Ct		Automatic			Automatic	10.335744													
+49	U2OS_si2	GAPDH	SYBR	Unknown	22.571072	86.5	Auto Tm				22.655247	22.6278	0.04913677	Automatic Ct		Automatic			Automatic	10.335744							true						
+50	U2OS_si2	GAPDH	SYBR	Unknown	22.655247	86.5	Auto Tm				22.655247	22.6278	0.04913677	Automatic Ct		Automatic			Automatic	10.335744							true						
+51	U2OS_si2	GAPDH	SYBR	Unknown	22.657082	86.5	Auto Tm				22.655247	22.6278	0.04913677	Automatic Ct		Automatic			Automatic	10.335744							true						
+73	U2OS_si3	GAPDH	SYBR	Unknown	22.194214	86.5	Auto Tm				22.194214	22.13476	0.1772991	Automatic Ct		Automatic			Automatic	10.335744							true						
+74	U2OS_si3	GAPDH	SYBR	Unknown	22.274694	86.5	Auto Tm				22.194214	22.13476	0.1772991	Automatic Ct		Automatic			Automatic	10.335744													
+75	U2OS_si3	GAPDH	SYBR	Unknown	21.935377	86.8	Auto Tm				22.194214	22.13476	0.1772991	Automatic Ct		Automatic			Automatic	10.335744													
+97	U2OS_si4	GAPDH	SYBR	Unknown	21.849913	86.8	Auto Tm				20.024788	20.037912	0.08136153	Automatic Ct		Automatic			Automatic	10.335744							true						
+98	U2OS_si4	GAPDH	SYBR	Unknown	21.879913	86.5	Auto Tm				20.024788	20.037912	0.08136153	Automatic Ct		Automatic			Automatic	10.335744													
+99	U2OS_si4	GAPDH	SYBR	Unknown	21.869913	86.8	Auto Tm				20.024788	20.037912	0.08136153	Automatic Ct		Automatic			Automatic	10.335744													
+121	U2OS_si5	GAPDH	SYBR	Unknown	14.894267	86.8	Auto Tm				14.894267	14.910587	0.099581756	Automatic Ct		Automatic			Automatic	10.335744							true						
+122	U2OS_si5	GAPDH	SYBR	Unknown	14.820173	86.8	Auto Tm				14.894267	14.910587	0.099581756	Automatic Ct		Automatic			Automatic	10.335744							true						
+123	U2OS_si5	GAPDH	SYBR	Unknown	14.017321	86.8	Auto Tm				14.894267	14.910587	0.099581756	Automatic Ct		Automatic			Automatic	10.335744													
+145	U2OS_siNegative_H2O	GAPDH	SYBR	Unknown	Undetermined	76.1	Auto Tm				35.927025	35.626163	0.53650343	Automatic Ct		Automatic			Automatic	10.335744							true						
+146	U2OS_siNegative_H2O	GAPDH	SYBR	Unknown	Undetermined	76.6	Auto Tm				35.927025	35.626163	0.53650343	Automatic Ct		Automatic			Automatic	10.335744													
+147	U2OS_siNegative_H2O	GAPDH	SYBR	Unknown	Undetermined	76.3	Auto Tm				35.927025	35.626163	0.53650343	Automatic Ct		Automatic			Automatic	10.335744													
+Slope		cycles/log decade
+Y-Intercept		
+R^2		
+
+
+Well	Sample Name	Detector Name	Reporter	Task	Ct	Tm Value	Tm Type	Quantity	Qty Mean	Qty StdDev	Ct Median	Ct Mean	Ct StdDev	Ct Type	Template Name	Baseline Type	Baseline Start	Baseline Stop	Threshold Type	Threshold	FOS	HMD	LME	EW	BPR	NAW	HNS	HRN	EAF	BAF	TAF	CAF	
+4	U2OS_siscr	OGG1_1	SYBR	Unknown	17.04587	86.5	Auto Tm				32.04587	32.401684	2.9705245	Automatic Ct		Automatic			Automatic	0.68369216				true									
+5	U2OS_siscr	OGG1_1	SYBR	Unknown	17.625086	86.5	Auto Tm				32.04587	32.401684	2.9705245	Automatic Ct		Automatic			Automatic	0.68369216				true									
+6	U2OS_siscr	OGG1_1	SYBR	Unknown	17.534084	65.3	Auto Tm				32.04587	32.401684	2.9705245	Automatic Ct		Automatic			Automatic	0.68369216				true									
+28	U2OS_si1	OGG1_1	SYBR	Unknown	32.291557	86.5	Auto Tm				32.291557	32.66052	0.8532059	Automatic Ct		Automatic			Automatic	0.68369216				true									
+29	U2OS_si1	OGG1_1	SYBR	Unknown	32.05389	86.5	Auto Tm				32.291557	32.66052	0.8532059	Automatic Ct		Automatic			Automatic	0.68369216				true									
+30	U2OS_si1	OGG1_1	SYBR	Unknown	32.636116	86.7	Auto Tm				32.291557	32.66052	0.8532059	Automatic Ct		Automatic			Automatic	0.68369216				true									
+52	U2OS_si2	OGG1_1	SYBR	Unknown	33.16467	86.5	Auto Tm				33.16467	33.1507	0.050280184	Automatic Ct		Automatic			Automatic	0.68369216				true			true						
+53	U2OS_si2	OGG1_1	SYBR	Unknown	33.094913	86.7	Auto Tm				33.16467	33.1507	0.050280184	Automatic Ct		Automatic			Automatic	0.68369216				true			true						
+54	U2OS_si2	OGG1_1	SYBR	Unknown	33.19252	86.5	Auto Tm				33.16467	33.1507	0.050280184	Automatic Ct		Automatic			Automatic	0.68369216				true			true						
+76	U2OS_si3	OGG1_1	SYBR	Unknown	29.271822	86.5	Auto Tm				29.271822	29.88061	1.1336175	Automatic Ct		Automatic			Automatic	0.68369216				true			true						
+77	U2OS_si3	OGG1_1	SYBR	Unknown	29.18145	86.7	Auto Tm				29.271822	29.88061	1.1336175	Automatic Ct		Automatic			Automatic	0.68369216				true									
+78	U2OS_si3	OGG1_1	SYBR	Unknown	29.188559	86.7	Auto Tm				29.271822	29.88061	1.1336175	Automatic Ct		Automatic			Automatic	0.68369216				true									
+100	U2OS_si4	OGG1_1	SYBR	Unknown	29.653912	86.8	Auto Tm				29.653912	29.736115	1.0072625	Automatic Ct		Automatic			Automatic	0.68369216				true									
+101	U2OS_si4	OGG1_1	SYBR	Unknown	29.772472	86.7	Auto Tm				29.653912	29.736115	1.0072625	Automatic Ct		Automatic			Automatic	0.68369216				true									
+102	U2OS_si4	OGG1_1	SYBR	Unknown	29.78196	87.0	Auto Tm				29.653912	29.736115	1.0072625	Automatic Ct		Automatic			Automatic	0.68369216				true									
+124	U2OS_si5	OGG1_1	SYBR	Unknown	20.80408	86.8	Auto Tm				20.35687	19.571295	1.7621952	Automatic Ct		Automatic			Automatic	0.68369216													
+125	U2OS_si5	OGG1_1	SYBR	Unknown	20.552935	87.0	Auto Tm				20.35687	19.571295	1.7621952	Automatic Ct		Automatic			Automatic	0.68369216													
+126	U2OS_si5	OGG1_1	SYBR	Unknown	20.35687	86.7	Auto Tm				20.35687	19.571295	1.7621952	Automatic Ct		Automatic			Automatic	0.68369216													
+148	U2OS_siNegative_H2O	OGG1_1	SYBR	Unknown	Undetermined	63.5	Auto Tm				13.358053	13.358053	15.917148	Automatic Ct		Automatic			Automatic	0.68369216				true			true						
+149	U2OS_siNegative_H2O	OGG1_1	SYBR	Unknown	Undetermined	64.3	Auto Tm				13.358053	13.358053	15.917148	Automatic Ct		Automatic			Automatic	0.68369216				true					true				
+150	U2OS_siNegative_H2O	OGG1_1	SYBR	Unknown	Undetermined	65.8	Auto Tm				13.358053	13.358053	15.917148	Automatic Ct		Automatic			Automatic	0.68369216				true									
+Slope		cycles/log decade
+Y-Intercept		
+R^2		
+
+
+Well	Sample Name	Detector Name	Reporter	Task	Ct	Tm Value	Tm Type	Quantity	Qty Mean	Qty StdDev	Ct Median	Ct Mean	Ct StdDev	Ct Type	Template Name	Baseline Type	Baseline Start	Baseline Stop	Threshold Type	Threshold	FOS	HMD	LME	EW	BPR	NAW	HNS	HRN	EAF	BAF	TAF	CAF	
+7	U2OS_siscr	OGG1_2	SYBR	Unknown	17.935547	64.7	Auto Tm				29.035671	29.035671	6.222364	Automatic Ct		Automatic			Automatic	0.12121401				true								true	
+8	U2OS_siscr	OGG1_2	SYBR	Unknown	17.435547	66.0	Auto Tm				29.035671	29.035671	6.222364	Automatic Ct		Automatic			Automatic	0.12121401				true									
+9	U2OS_siscr	OGG1_2	SYBR	Unknown	17.635796	85.3	Auto Tm				29.035671	29.035671	6.222364	Automatic Ct		Automatic			Automatic	0.12121401				true									
+31	U2OS_si1	OGG1_2	SYBR	Unknown	33.352314	85.4	Auto Tm				32.352314	25.126099	13.668027	Automatic Ct		Automatic			Automatic	0.12121401				true									
+32	U2OS_si1	OGG1_2	SYBR	Unknown	33.66418	85.6	Auto Tm				32.352314	25.126099	13.668027	Automatic Ct		Automatic			Automatic	0.12121401				true									
+33	U2OS_si1	OGG1_2	SYBR	Unknown	33.76418	68.9	Auto Tm				32.352314	25.126099	13.668027	Automatic Ct		Automatic			Automatic	0.12121401				true									
+55	U2OS_si2	OGG1_2	SYBR	Unknown	31.1865	85.1	Auto Tm				32.940685	33.09357	2.0208266	Automatic Ct		Automatic			Automatic	0.12121401				true			true						
+56	U2OS_si2	OGG1_2	SYBR	Unknown	31.153532	85.4	Auto Tm				32.940685	33.09357	2.0208266	Automatic Ct		Automatic			Automatic	0.12121401				true			true						
+57	U2OS_si2	OGG1_2	SYBR	Unknown	30.940685	85.3	Auto Tm				32.940685	33.09357	2.0208266	Automatic Ct		Automatic			Automatic	0.12121401				true			true						
+79	U2OS_si3	OGG1_2	SYBR	Unknown	25.514359	85.4	Auto Tm				25.785553	24.742361	2.602181	Automatic Ct		Automatic			Automatic	0.12121401				true			true						
+80	U2OS_si3	OGG1_2	SYBR	Unknown	25.020594	85.4	Auto Tm				25.785553	24.742361	2.602181	Automatic Ct		Automatic			Automatic	0.12121401				true			true						
+81	U2OS_si3	OGG1_2	SYBR	Unknown	25.550512	85.3	Auto Tm				25.785553	24.742361	2.602181	Automatic Ct		Automatic			Automatic	0.12121401				true									
+103	U2OS_si4	OGG1_2	SYBR	Unknown	25.391672	85.4	Auto Tm				26.017012	26.086103	0.2775501	Automatic Ct		Automatic			Automatic	0.12121401				true									
+104	U2OS_si4	OGG1_2	SYBR	Unknown	25.849625	85.4	Auto Tm				26.017012	26.086103	0.2775501	Automatic Ct		Automatic			Automatic	0.12121401				true									
+105	U2OS_si4	OGG1_2	SYBR	Unknown	25.549625	85.3	Auto Tm				26.017012	26.086103	0.2775501	Automatic Ct		Automatic			Automatic	0.12121401				true								true	
+127	U2OS_si5	OGG1_2	SYBR	Unknown	17.499073	86.7	Auto Tm				17.940445	17.378637	1.4833976	Automatic Ct		Automatic			Automatic	0.12121401													
+128	U2OS_si5	OGG1_2	SYBR	Unknown	17.940445	85.6	Auto Tm				17.940445	17.378637	1.4833976	Automatic Ct		Automatic			Automatic	0.12121401													
+129	U2OS_si5	OGG1_2	SYBR	Unknown	17.840445	65.8	Auto Tm				17.940445	17.378637	1.4833976	Automatic Ct		Automatic			Automatic	0.12121401				true								true	
+151	U2OS_siNegative_H2O	OGG1_2	SYBR	Unknown	Undetermined	65.3	Auto Tm				22.04721	22.04721	2.2025526	Automatic Ct		Automatic			Automatic	0.12121401				true									
+152	U2OS_siNegative_H2O	OGG1_2	SYBR	Unknown	Undetermined	63.5	Auto Tm				22.04721	22.04721	2.2025526	Automatic Ct		Automatic			Automatic	0.12121401				true					true				
+153	U2OS_siNegative_H2O	OGG1_2	SYBR	Unknown	Undetermined	85.6	Auto Tm				22.04721	22.04721	2.2025526	Automatic Ct		Automatic			Automatic	0.12121401													
+
+
+Slope		cycles/log decade
+Y-Intercept		
+R^2		
+
+
+Well	Sample Name	Detector Name	Reporter	Task	Ct	Tm Value	Tm Type	Quantity	Qty Mean	Qty StdDev	Ct Median	Ct Mean	Ct StdDev	Ct Type	Template Name	Baseline Type	Baseline Start	Baseline Stop	Threshold Type	Threshold	FOS	HMD	LME	EW	BPR	NAW	HNS	HRN	EAF	BAF	TAF	CAF	
+10	U2OS_siscr	OGG1_3	SYBR	Unknown	20.00039	65.3	Auto Tm				27.846378	28.426867	1.7888167	Automatic Ct		Automatic			Automatic	0.2954626				true									
+11	U2OS_siscr	OGG1_3	SYBR	Unknown	20.433836	82.6	Auto Tm				27.846378	28.426867	1.7888167	Automatic Ct		Automatic			Automatic	0.2954626				true									
+12	U2OS_siscr	OGG1_3	SYBR	Unknown	20.846378	82.4	Auto Tm				27.846378	28.426867	1.7888167	Automatic Ct		Automatic			Automatic	0.2954626				true									
+34	U2OS_si1	OGG1_3	SYBR	Unknown	33.694298	82.6	Auto Tm				33.550682	33.351063	0.5831697	Automatic Ct		Automatic			Automatic	0.2954626				true									
+35	U2OS_si1	OGG1_3	SYBR	Unknown	33.808212	82.6	Auto Tm				33.550682	33.351063	0.5831697	Automatic Ct		Automatic			Automatic	0.2954626				true									
+36	U2OS_si1	OGG1_3	SYBR	Unknown	33.550682	82.6	Auto Tm				33.550682	33.351063	0.5831697	Automatic Ct		Automatic			Automatic	0.2954626				true									
+58	U2OS_si2	OGG1_3	SYBR	Unknown	32.550682	90.0	Auto Tm				33.369835	33.369835	0.57481825	Automatic Ct		Automatic			Automatic	0.2954626			true				true	true					
+59	U2OS_si2	OGG1_3	SYBR	Unknown	32.963375	82.6	Auto Tm				33.369835	33.369835	0.57481825	Automatic Ct		Automatic			Automatic	0.2954626				true			true						
+60	U2OS_si2	OGG1_3	SYBR	Unknown	32.77629	82.6	Auto Tm				33.369835	33.369835	0.57481825	Automatic Ct		Automatic			Automatic	0.2954626				true			true						
+82	U2OS_si3	OGG1_3	SYBR	Unknown	27.16409	82.6	Auto Tm				27.963491	27.851974	0.38033682	Automatic Ct		Automatic			Automatic	0.2954626				true									
+83	U2OS_si3	OGG1_3	SYBR	Unknown	27.428347	82.9	Auto Tm				27.963491	27.851974	0.38033682	Automatic Ct		Automatic			Automatic	0.2954626				true									
+84	U2OS_si3	OGG1_3	SYBR	Unknown	27.963491	82.6	Auto Tm				27.963491	27.851974	0.38033682	Automatic Ct		Automatic			Automatic	0.2954626				true			true						
+106	U2OS_si4	OGG1_3	SYBR	Unknown	29.405912	82.6	Auto Tm				29.519066	29.71077	0.4337413	Automatic Ct		Automatic			Automatic	0.2954626				true									
+107	U2OS_si4	OGG1_3	SYBR	Unknown	29.207333	82.6	Auto Tm				29.519066	29.71077	0.4337413	Automatic Ct		Automatic			Automatic	0.2954626				true									
+108	U2OS_si4	OGG1_3	SYBR	Unknown	29.519066	82.6	Auto Tm				29.519066	29.71077	0.4337413	Automatic Ct		Automatic			Automatic	0.2954626				true									
+130	U2OS_si5	OGG1_3	SYBR	Unknown	32.170572	64.5	Auto Tm				23.170572	22.110205	10.7344	Automatic Ct		Automatic			Automatic	0.2954626				true									
+131	U2OS_si5	OGG1_3	SYBR	Unknown	32.275066	65.0	Auto Tm				23.170572	22.110205	10.7344	Automatic Ct		Automatic			Automatic	0.2954626				true			true						
+132	U2OS_si5	OGG1_3	SYBR	Unknown	32.875066	63.7	Auto Tm				23.170572	22.110205	10.7344	Automatic Ct		Automatic			Automatic	0.2954626				true			true						
+154	U2OS_siNegative_H2O	OGG1_3	SYBR	Unknown	Undetermined	82.9	Auto Tm				21.636904	21.817278	0.56020135	Automatic Ct		Automatic			Automatic	0.2954626							true						
+155	U2OS_siNegative_H2O	OGG1_3	SYBR	Unknown	Undetermined	82.9	Auto Tm				21.636904	21.817278	0.56020135	Automatic Ct		Automatic			Automatic	0.2954626													
+156	U2OS_siNegative_H2O	OGG1_3	SYBR	Unknown	Undetermined	82.9	Auto Tm				21.636904	21.817278	0.56020135	Automatic Ct		Automatic			Automatic	0.2954626													
+Slope		cycles/log decade
+Y-Intercept		
+R^2		
+
+
+
+NAP	LPL
+	

@@ -1,0 +1,557 @@
+---
+title: "Week Three"
+subtitle: "Introduction to Tidyverse"
+output: powerpoint_presentation
+---
+
+## Installing Tidyverse
+
+```{r}
+# install.packages("tidyverse")
+```
+
+## Loading Tidyverse
+
+```{r}
+library(tidyverse)
+```
+
+## Getting the data (base way)
+```{r}
+base_titanic <- read.csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv")
+head(base_titanic)
+```
+
+
+## Getting the data (tidy way)
+
+```{r cache=TRUE}
+tidy_titanic <- read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv")
+tidy_titanic
+```
+
+## Base class vs Tidy class
+```{r}
+class(base_titanic)
+class(tidy_titanic)
+```
+
+
+## The filter verb
+```{r}
+filter(tidy_titanic, Age > 12)
+```
+
+## The filter verb
+```{r}
+tidy_titanic %>%
+  filter(Age > 12)
+```
+
+
+## The select verb
+```{r}
+tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex)
+```
+
+## The group_by verb
+```{r}
+tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex) %>%
+  group_by(Sex, Survived)
+```
+
+
+
+## The summarise verb
+```{r}
+tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex) %>%
+  group_by(Sex, Survived) %>%
+  summarise(num_sex_survive = n())
+```
+
+## The mutate verb
+```{r}
+tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex) %>%
+  group_by(Sex, Survived) %>%
+  summarise(num_sex_survive = n()) %>%
+  group_by(Sex) %>%
+  mutate(pct_sex_survive = num_sex_survive/sum(num_sex_survive) * 100)
+```
+
+## The mutate verb
+```{r}
+tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex) %>%
+  group_by(Sex, Survived) %>%
+  summarise(num_sex_survive = n()) %>%
+  mutate(pct_sex_survive = num_sex_survive/sum(num_sex_survive) * 100)
+```
+
+## The mutate verb
+```{r}
+tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex) %>%
+  group_by(Sex, Survived) %>%
+  summarise(num_sex_survive = n()) %>%
+  mutate(pct_sex_survive = num_sex_survive/sum(num_sex_survive) * 100) %>%
+  filter(Survived == 1)
+```
+
+
+## Save in variable
+
+```{r}
+pct_surv <- tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex) %>%
+  group_by(Sex, Survived) %>%
+  summarise(num_sex_survive = n()) %>%
+  mutate(pct_sex_survive = num_sex_survive/sum(num_sex_survive) * 100) %>%
+  filter(Survived == 1)
+pct_surv
+```
+
+
+## ggplot2 prt 1
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv)
+```
+
+
+## ggplot2 prt 2
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = num_sex_survive))
+```
+
+## ggplot2 prt 3
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = num_sex_survive)) + 
+  geom_bar(stat = "identity")
+```
+
+## ggplot prt 4
+
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive)) + 
+  geom_bar(stat = "identity")
+```
+
+## ggplot5
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving")
+```
+
+
+
+## ggplot6
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic")
+```
+
+
+
+## ggplot7
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic()
+```
+
+
+## ggplot8
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic() 
+```
+
+
+## ggplot9
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic() +
+  xlab(NULL)
+```
+
+## ggplot10
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic() +
+  xlab(NULL) +
+  theme(legend.position = "none")
+```
+
+
+## ggplot11
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic() +
+  xlab(NULL) +
+  theme(legend.position = "none") +
+  scale_y_continuous(limits = c(0, 100), expand = c(0, 0))
+```
+
+
+## ggplot12
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic() +
+  xlab(NULL) +
+  theme(legend.position = "none") +
+  scale_y_continuous(limits = c(0, 100), expand = c(0, 0)) +
+  scale_x_discrete(labels = c("Female", "Male"))
+```
+
+
+## ggplot13
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic(base_size = 17) +
+  xlab(NULL) +
+  theme(legend.position = "none") +
+  scale_y_continuous(limits = c(0, 100), expand = c(0, 0)) +
+  scale_x_discrete(labels = c("Female", "Male"))
+```
+
+
+## ggplot14
+
+```{r fig.height=5, fig.width=7, dpi=300}
+my_figure <- ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) + 
+  geom_bar(stat = "identity") +
+  ylab("Percentage Surviving") +
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +
+  theme_classic(base_size = 17) +
+  xlab(NULL) +
+  theme(legend.position = "none") +
+  scale_y_continuous(limits = c(0, 100), expand = c(0, 0)) +
+  scale_x_discrete(labels = c("Female", "Male"))
+my_figure
+```
+
+
+## ggplot15
+
+```{r fig.height=5, fig.width=7, dpi=300}
+ggsave(plot = my_figure, filename = "my_fig.png", width = 7, height = 4.5)
+```
+
+
+## All together now
+
+```{r fig.height=5, fig.width=7, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  filter(Age > 12) %>%  # Only keep passengers with known Age
+  select(Survived, Sex) %>%  # Only keep the Survived and Sex columns
+  group_by(Sex, Survived) %>%  # Group by Sex and then Survived
+  summarise(num_sex_survive = n()) %>%  # Count the number of passengers in these groups
+  mutate(pct_sex_survive = num_sex_survive/sum(num_sex_survive) * 100) %>%  # Calculate the percent surviving
+  filter(Survived == 1) %>%  # Only keep the surviving passengers
+  ggplot(mapping = aes(x = Sex, y = pct_sex_survive, fill = Sex)) +  # Build the data and aesthetic layers 
+  geom_bar(stat = "identity") +  # Build the geometric layer as a bar plot
+  ylab("Percentage Surviving") +  # Make a Y axis label
+  labs(title = "Effect of Sex on Survival aboard the Titanic") +  # Add a title
+  theme_classic(base_size = 17) +  # Increase the font size and set a nice theme
+  xlab(NULL) +  # Remove the X axis label
+  theme(legend.position = "none") +  # Remove the legend
+  scale_y_continuous(limits = c(0, 100), expand = c(0, 0)) +  # Set Y axis limits and remove the expansion
+  scale_x_discrete(labels = c("Female", "Male")) +  # Capitalize the X axis Sex labels 
+  ggsave(filename = "my_fig.png", width = 7, height = 4.5)
+```
+
+
+
+## Does Fare predict Survival?
+
+```{r fig.height=5, fig.width=7, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  ggplot(mapping = aes(x = Survived, y = Fare)) 
+```
+
+
+## Survived is being treated as a continuous variable
+
+```{r fig.height=5, fig.width=7, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  select(Survived)
+```
+
+
+## Factorizing Survived to make it discrete
+
+```{r fig.height=5, fig.width=7, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  ggplot(mapping = aes(x = factor(Survived), y = Fare)) 
+```
+
+## Add factor labels to improve readability
+
+```{r fig.height=5, fig.width=7, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) 
+```
+
+
+## Add the boxplot geometry
+
+```{r fig.height=5, fig.width=7, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+  geom_boxplot() 
+```
+
+
+## Coordinates: log-scale for y-axis
+
+```{r fig.height=5, fig.width=7, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  filter(Fare > 0) %>%
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+  geom_boxplot() +
+  scale_y_log10()
+```
+
+
+## Is age a confounding variable here? Make age brackets
+
+```{r}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  
+  filter(is.numeric(Age) & Fare > 0) %>%
+  mutate(Age_bracket = case_when(
+    Age > 60 ~ "Senior",
+    Age < 16 ~ "Child",
+    TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
+  ))
+```
+
+## Facet: split the plot by age bracket
+
+```{r fig.height=5, fig.width=11, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  filter(is.numeric(Age) & Fare > 0) %>%
+  mutate(Age_bracket = case_when(
+    Age > 60 ~ "Senior",
+    Age < 16 ~ "Child",
+    TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
+  )) %>%
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  facet_wrap(~ Age_bracket) 
+```
+
+
+## Install and load ggpubr
+
+```{r}
+# install.packages("ggpubr")
+library(ggpubr)
+```
+
+
+## Relationship between Age and Fare Price2
+
+
+```{r fig.height=5, fig.width=11, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  filter(is.numeric(Age) & Fare > 0) %>%
+  mutate(Age_bracket = case_when(
+    Age > 60 ~ "Senior",
+    Age < 16 ~ "Child",
+    TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
+  )) %>%
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  facet_wrap(~ Age_bracket) +
+  stat_compare_means(method = "t.test")
+```
+
+
+## Relationship between Age and Fare Price3
+
+
+```{r fig.height=5, fig.width=11, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  filter(is.numeric(Age) & Fare > 0) %>%
+  mutate(Age_bracket = case_when(
+    Age > 60 ~ "Senior",
+    Age < 16 ~ "Child",
+    TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
+  )) %>%
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  facet_wrap(~ Age_bracket) +
+  stat_compare_means(method = "t.test", label = "p.signif")
+```
+
+
+## Relationship between Age and Fare Price4
+
+
+```{r fig.height=5, fig.width=11, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  filter(is.numeric(Age) & Fare > 0) %>%
+  mutate(Age_bracket = case_when(
+    Age > 60 ~ "Senior",
+    Age < 16 ~ "Child",
+    TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
+  )) %>%
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  facet_wrap(~ Age_bracket) +
+  stat_compare_means(method = "t.test", label = "p.signif", comparisons = list(c("Died", "Survived")))
+```
+
+
+
+## Relationship between Age and Fare Price5
+
+
+```{r fig.height=5, fig.width=11, dpi=300}
+read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+  filter(is.numeric(Age) & Fare > 0) %>%
+  mutate(Age_bracket = case_when(
+    Age > 60 ~ "Senior",
+    Age < 16 ~ "Child",
+    TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
+  )) %>%
+  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare, fill =  factor(Survived, labels = c("Died", "Survived")))) +
+  geom_boxplot() +
+  scale_y_log10(limits = c(2, 1000)) +
+  facet_wrap(~ Age_bracket) +
+  stat_compare_means(method = "t.test", label = "p.signif", comparisons = list(c("Died", "Survived"))) +
+  xlab(NULL) +
+  ylab("Ticket Price (log scale)") +
+  theme_bw(base_size = 17) +
+  theme(legend.position = "none") +
+  scale_fill_manual(values = c("goldenrod", "skyblue")) +
+  ggsave(filename = "my_figure.png", height = 5, width = 11)
+```
+
+## Final example: correlation
+
+```{r}
+iris 
+```
+
+
+## Final example: correlation prt 2
+
+```{r}
+iris %>%
+  filter(Species == "virginica") %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length)) +
+  geom_point()
+```
+
+
+## Final example: correlation prt 2
+
+```{r}
+iris %>%
+  filter(Species == "virginica") %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length)) +
+  geom_point() +
+  geom_smooth(method = "lm") 
+```
+
+## Final example: correlation prt 3
+
+```{r}
+iris %>%
+  filter(Species == "virginica") %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor()
+```
+
+
+## Final example: correlation prt 4
+
+```{r}
+iris %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() 
+```
+
+
+## Final example: correlation prt 5
+
+```{r}
+iris %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor()
+```
+
+
+## Final example: correlation prt 6
+
+```{r}
+iris %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  theme_classic(base_size = 16) +
+  ylab("Petal Length (cm)") +
+  xlab("Sepal Length (cm)") + 
+  labs(title = "Petal vs Sepal Length in Iris Species") +
+  ggsave("iris_lengths.png", height = 5, width = 8)
+```
+
+
+
+

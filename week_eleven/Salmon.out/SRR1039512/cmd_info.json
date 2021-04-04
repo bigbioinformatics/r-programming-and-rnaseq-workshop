@@ -1,0 +1,11 @@
+{
+    "salmon_version": "1.3.0",
+    "libType": "A",
+    "mates1": "SRR1039512/SRR1039512.sra_1.fastq",
+    "mates2": "SRR1039512/SRR1039512.sra_2.fastq",
+    "validateMappings": [],
+    "index": "/home/labadmin/hg38/salmon_partial_sa_index/default/",
+    "output": "Salmon.out/SRR1039512",
+    "threads": "15",
+    "auxDir": "aux_info"
+}
